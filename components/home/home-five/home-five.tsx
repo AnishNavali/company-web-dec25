@@ -1,0 +1,179 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import TextType from '@/components/TextType';
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+
+// Merging your content with the Image/Card structure
+const features = [
+  {
+    id: "communities",
+    title: "Enriching Communities",
+    description: "Our mission extends beyond business. By enabling industries to thrive through advanced technology, we contribute to building stronger communities and driving meaningful change on a global scale.",
+    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2084&auto=format&fit=crop"
+  },
+  {
+    id: "solutions",
+    title: "End-to-End Solutions at Core",
+    description: "As a fresh and dynamic startup, we specialize in building smart AI chatbots and data-driven analytics solutions tailored for modern business needs. Our small but passionate team brings innovative thinking to every project.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"
+  },
+  {
+    id: "innovation",
+    title: "Accessible Innovation",
+    description: "We bring the power of cutting-edge AI and data analytics within your reach. By streamlining our processes and refining our solutions, we ensure that innovation remains accessible and cost-effective for every business.",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
+  },
+  {
+    id: "sustainability",
+    title: "Sustainability at Core",
+    description: "We believe in transforming industries responsibly. Our AI-driven solutions are designed to not only drive operational efficiency but also promote sustainable practices, leaving a lasting positive impact on the environment.",
+    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=2070&auto=format&fit=crop"
+  }
+];
+
+export default function HomeSectionFive() {
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    if (!carouselApi) {
+      return;
+    }
+    const updateSelection = () => {
+      setCanScrollPrev(carouselApi.canScrollPrev());
+      setCanScrollNext(carouselApi.canScrollNext());
+      setCurrentSlide(carouselApi.selectedScrollSnap());
+    };
+    updateSelection();
+    carouselApi.on("select", updateSelection);
+    return () => {
+      carouselApi.off("select", updateSelection);
+    };
+  }, [carouselApi]);
+
+  return (
+    <div className="w-full bg-[#FFFAF7] flex flex-col items-center justify-center p-4 md:p-8 lg:p-16 relative overflow-hidden">
+      
+      {/* Decorative Lines */}
+      <div className="absolute inset-0 pointer-events-none opacity-10">
+         <div className="absolute top-10 left-0 w-full h-1 bg-gray-400"></div>
+         <div className="absolute bottom-10 left-0 w-full h-1 bg-gray-400"></div>
+         <div className="absolute top-0 left-10 h-full w-1 bg-gray-400"></div>
+         <div className="absolute top-0 right-10 h-full w-1 bg-gray-400"></div>
+      </div>
+
+      <div className="w-full max-w-[1600px] mx-auto">
+        {/* Section Header & Controls */}
+        <div className="mb-8 flex flex-col md:flex-row items-center justify-center md:mb-14 lg:mb-16 relative z-10">
+          <div className="flex flex-col gap-4 w-full md:w-2/3">
+             <div className="text-left">
+                <TextType 
+                  text={["Why Equilibrate Leads the Future"]}
+                  typingSpeed={75}
+                  pauseDuration={1500}
+                  showCursor={true}
+                  cursorCharacter="|"
+                  className='text-3xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight mb-4'
+                />
+             </div>
+          </div>
+          
+          {/* Carousel Controls */}
+          {/* <div className="hidden shrink-0 flex-row items-end gap-2 md:flex">
+            <Button
+              size="icon"
+              variant="ghost"
+              onClick={() => carouselApi?.scrollPrev()}
+              disabled={!canScrollPrev}
+              className="disabled:pointer-events-auto hover:bg-black/5 text-black"
+            >
+              <ArrowLeft className="size-6" />
+            </Button>
+            <Button
+              size="icon"
+              variant="ghost"
+              onClick={() => carouselApi?.scrollNext()}
+              disabled={!canScrollNext}
+              className="disabled:pointer-events-auto hover:bg-black/5 text-black"
+            >
+              <ArrowRight className="size-6" />
+            </Button>
+          </div> */}
+        </div>
+
+        {/* Carousel Section */}
+        <div className="w-full relative z-10">
+          <Carousel
+            setApi={setCarouselApi}
+            opts={{
+              breakpoints: {
+                "(max-width: 768px)": {
+                  dragFree: true,
+                },
+              },
+            }}
+          >
+            <CarouselContent className="-ml-4">
+              {features.map((item) => (
+                <CarouselItem
+                  key={item.id}
+                  className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                >
+                  <div className="group relative h-full min-h-[28rem] rounded-[2rem] overflow-hidden cursor-pointer">
+                    {/* Background Image */}
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="absolute h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    />
+                    
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                    
+                    {/* Content */}
+                    <div className="absolute inset-x-0 bottom-0 flex flex-col items-start p-6 md:p-8 text-white">
+                      <h3 className="mb-3 text-xl font-bold md:text-2xl leading-tight">
+                        {item.title}
+                      </h3>
+                      <p className="mb-6 text-sm text-gray-200 line-clamp-4 leading-relaxed font-medium">
+                        {item.description}
+                      </p>
+                      <div className="flex items-center text-sm font-semibold group/btn">
+                        Read more{" "}
+                        <ArrowRight className="ml-2 size-4 transition-transform group-hover/btn:translate-x-1" />
+                      </div>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+
+          {/* Mobile Dot Navigation */}
+          <div className="mt-8 flex justify-center gap-2 md:hidden">
+            {features.map((_, index) => (
+              <button
+                key={index}
+                className={`h-2 w-2 rounded-full transition-colors ${
+                  currentSlide === index ? "bg-black" : "bg-black/20"
+                }`}
+                onClick={() => carouselApi?.scrollTo(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
