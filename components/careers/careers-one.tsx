@@ -2,11 +2,9 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
@@ -28,6 +26,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/navbar/navbar";
 
+// --- Hero Section ---
 export const CarrerSecOne = () => {
   const floatingAnimation: Variants = {
     hidden: { y: 0 },
@@ -90,7 +89,7 @@ export const CarrerSecOne = () => {
 
 // --- Form Logic & Components ---
 
-interface FormData {
+interface FormDataState {
   firstName: string;
   lastName: string;
   email: string;
@@ -108,7 +107,7 @@ interface FormData {
 }
 
 export function CarrerSecTwo() {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<FormDataState>({
     firstName: "",
     lastName: "",
     email: "",
@@ -166,7 +165,7 @@ export function CarrerSecTwo() {
     },
   };
 
-  const handleInputChange = (field: keyof FormData, value: unknown) => {
+  const handleInputChange = (field: keyof FormDataState, value: unknown) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -197,23 +196,47 @@ export function CarrerSecTwo() {
       return;
     }
 
-    if (
-      !formData.firstName ||
-      !formData.lastName ||
-      !formData.email ||
-      !formData.position
-    ) {
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.position) {
       alert("Please fill in all required fields");
       return;
     }
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const data = new FormData();
+      data.append("firstName", formData.firstName);
+      data.append("lastName", formData.lastName);
+      data.append("email", formData.email);
+      data.append("phone", formData.phone);
+      data.append("position", formData.position === "Others" ? (formData.customPosition || "") : formData.position);
+      data.append("experience", formData.experience);
+      data.append("skills", formData.skills.join(", "));
+      data.append("linkedinUrl", formData.linkedinUrl);
+      data.append("portfolioUrl", formData.portfolioUrl);
+      data.append("coverLetter", formData.coverLetter);
+      if (formData.resume) {
+        data.append("resume", formData.resume);
+      }
+
+      // Updated fetch URL to match your route path
+      const res = await fetch("/api/contact-form/career", { 
+        method: "POST",
+        body: data,
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Submission failed");
+      }
+
       setIsSubmitted(true);
-    }, 2000);
+    } catch (error) {
+      console.error("Submission Error:", error);
+      alert("Failed to submit application. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const isFormValid = () => {
@@ -250,7 +273,6 @@ export function CarrerSecTwo() {
                   {/* Personal Information Section */}
                   <motion.div
                     variants={cardReveal}
-                    // Theme applied: rounded-[2rem], white bg, shadow-sm
                     className="bg-white rounded-[2rem] p-8 shadow-sm border-none hover:shadow-lg transition-all duration-300"
                     whileHover="visible"
                   >
@@ -523,7 +545,6 @@ export function CarrerSecTwo() {
 
 export default function CareersCombo() {
   return (
-    // Theme Background Color Applied
     <div className="bg-[#FFFAF7] min-h-screen relative overflow-x-hidden font-sans">
       
       {/* Theme Decorative Lines */}
@@ -537,8 +558,6 @@ export default function CareersCombo() {
       <div className="absolute top-8 left-0 right-0 z-50 flex justify-center">
           <Navbar />
       </div>
-
-
 
       <CarrerSecOne />
       <CarrerSecTwo />

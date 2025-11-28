@@ -104,9 +104,6 @@ export function Footer() {
 
   const cardRef = useRef<HTMLDivElement | null>(null);
 
-  // Scroll removed to prevent jumping on load if it's a footer
-  // useEffect(() => { ... }, []); 
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -150,13 +147,17 @@ export function Footer() {
     setIsSubmitting(true);
 
     try {
+      // Ensure this path matches your file structure exactly
       const res = await fetch("/api/contact-form/footer-route", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+      
       const data = await res.json();
+      
       if (!res.ok) {
+        console.error("Submission failed:", data);
         alert(data.message || "Submission failed.");
         return;
       }
@@ -185,12 +186,17 @@ export function Footer() {
   ];
 
   return (
-    // Theme Update: Main Background Color
+    // Theme Update: Background & Grid Lines
     <footer 
       className="relative bg-[#FFFAF7] border-t border-gray-200 overflow-hidden mt-auto font-sans"
       style={{ position: 'relative', clear: 'both', minHeight: 'auto' }}
     >
-      
+      <div className="absolute inset-0 pointer-events-none opacity-10 z-0">
+         <div className="absolute top-10 left-0 w-full h-1 bg-gray-400"></div>
+         <div className="absolute bottom-10 left-0 w-full h-1 bg-gray-400"></div>
+         <div className="absolute top-0 left-10 h-full w-1 bg-gray-400"></div>
+         <div className="absolute top-0 right-10 h-full w-1 bg-gray-400"></div>
+      </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-12 items-center">
@@ -261,7 +267,7 @@ export function Footer() {
           {/* Right Column: Form Card */}
           <motion.div
             ref={cardRef}
-            // Theme Update: Card styling to rounded-[2rem], white bg, shadow-sm
+            // Theme Update: Card style
             className="group bg-white rounded-[2rem] p-8 border-none shadow-sm hover:shadow-xl relative overflow-hidden transition-all"
           >
             <div className="relative z-10">
@@ -293,7 +299,7 @@ export function Footer() {
                             placeholder="Your full name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            // Theme Update: Input Styling
+                            // Theme Update: Inputs
                             className={`bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 text-black placeholder:text-gray-400 transition-all ${
                               errors.name ? "border-red-400" : ""
                             }`}
@@ -370,7 +376,6 @@ export function Footer() {
                             handleSubmit({ preventDefault: () => {} } as FormEvent<HTMLFormElement>);
                           }}
                           disabled={!isFormValid() || isSubmitting}
-                          // Theme Update: Black Button
                           className="w-full bg-black hover:bg-gray-800 text-white font-bold py-4 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {isSubmitting ? (

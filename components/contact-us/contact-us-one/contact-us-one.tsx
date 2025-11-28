@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import {
   User,
@@ -13,11 +13,8 @@ import {
   Phone,
   Briefcase,
 } from "lucide-react";
-import { Globe } from "@/components/ui/globe"; // Make sure this component exists
+import { Globe } from "@/components/ui/globe";
 import Navbar from "@/components/navbar/navbar";
-
-// --- Stars Background Component ---
-
 
 // --- Contact Section One (Hero) ---
 export const ContactSecOne = () => {
@@ -114,6 +111,10 @@ export function ContactSecTwo() {
 
   const handleInputChange = (field: keyof FormData, value: unknown) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
   };
 
   const validateForm = () => {
@@ -154,9 +155,20 @@ export function ContactSecTwo() {
     setIsSubmitting(true);
 
     try {
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        setIsSubmitted(true);
+      // Updated fetch URL to match your API route
+      const res = await fetch("/api/contact-form/contact-us-route", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Submission failed");
+      }
+
+      setIsSubmitted(true);
     } catch (error) {
       console.error("Submission error:", error);
       alert("Submission failed. Please try again.");
@@ -185,7 +197,6 @@ export function ContactSecTwo() {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            // Theme styling: White bg, rounded corners, shadow
             className="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100"
           >
             <AnimatePresence mode="wait">
@@ -200,7 +211,7 @@ export function ContactSecTwo() {
                 >
                   {/* Name */}
                   <div>
-                    <label className="text-black font-medium mb-2 block ml-1">Name</label>
+                    <label className="text-black font-medium mb-2 block ml-1">Name *</label>
                     <div className="relative">
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                       <input
@@ -218,7 +229,7 @@ export function ContactSecTwo() {
 
                   {/* Email */}
                   <div>
-                    <label className="text-black font-medium mb-2 block ml-1">Email</label>
+                    <label className="text-black font-medium mb-2 block ml-1">Email *</label>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                       <input
@@ -236,7 +247,7 @@ export function ContactSecTwo() {
 
                   {/* Phone */}
                   <div>
-                    <label className="text-black font-medium mb-2 block ml-1">Phone</label>
+                    <label className="text-black font-medium mb-2 block ml-1">Phone *</label>
                     <div className="relative">
                       <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                       <input
@@ -284,7 +295,7 @@ export function ContactSecTwo() {
 
                   {/* Message */}
                   <div>
-                    <label className="text-black font-medium mb-2 block ml-1">Message</label>
+                    <label className="text-black font-medium mb-2 block ml-1">Message *</label>
                     <div className="relative">
                       <MessageSquare className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
                       <textarea
@@ -335,7 +346,7 @@ export function ContactSecTwo() {
                     Message Sent Successfully!
                   </h3>
                   <p className="text-gray-600 mb-8 text-lg">
-                    We’ll get back to you within 24 hours.
+                    We&apos;ll get back to you within 24 hours.
                   </p>
                   <button
                     onClick={() => {
@@ -363,7 +374,6 @@ export function ContactSecTwo() {
           >
             <div className="w-full max-w-[500px]">
               <div className="relative bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
-                {/* Gradient accent background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white opacity-70" />
 
                 {/* Globe */}
@@ -391,8 +401,7 @@ export function ContactSecTwo() {
 
 export default function ContactCombo() {
   return (
-    // Theme Background Color Applied
-    <div className="bg-[#FFFAF7]  relative overflow-x-hidden font-sans">
+    <div className="bg-[#FFFAF7] min-h-screen relative overflow-x-hidden font-sans">
       
       {/* Theme Decorative Lines */}
       <div className="absolute inset-0 pointer-events-none opacity-10">
@@ -405,7 +414,6 @@ export default function ContactCombo() {
       <div className="absolute top-8 left-0 right-0 z-50 flex justify-center">
           <Navbar />
       </div>
-
 
       <ContactSecOne />
       <ContactSecTwo />
