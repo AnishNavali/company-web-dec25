@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { X, MessageCircle } from "lucide-react";
+import { X, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -138,7 +138,7 @@ const ExpandableChatToggle: React.FC<ExpandableChatToggleProps> = ({
     {isOpen ? (
       <X className="h-6 w-6" />
     ) : (
-      icon || <MessageCircle className="h-6 w-6" />
+      icon || <Bot className="h-6 w-6" />
     )}
   </Button>
 );

@@ -33,14 +33,14 @@ const features = [
     title: "Innovation",
     description:
       "Cutting-edge AI technology designed to enhance productivity and drive measurable business growth.",
-    image: "/innovation.png",
+    image: "/innovationone.png",
   },
   {
     id: "sustainability",
     title: "Real-Time Analytics",
     description:
       "Comprehensive dashboards delivering instant visibility into performance metrics and business intelligence.",
-    image: "/realtime.png",
+    image: "/realtimeone.png",
   },
 ];
 
@@ -151,10 +151,10 @@ export default function HomeSectionFive() {
                       <p className="mb-6 text-sm text-gray-200 line-clamp-4 leading-relaxed font-medium">
                         {item.description}
                       </p>
-                      <div className="flex items-center text-sm font-semibold group/btn">
+                      {/* <div className="flex items-center text-sm font-semibold group/btn">
                         Read more{" "}
                         <ArrowRight className="ml-2 size-4 transition-transform group-hover/btn:translate-x-1" />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </CarouselItem>

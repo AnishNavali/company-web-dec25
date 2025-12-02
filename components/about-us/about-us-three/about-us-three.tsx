@@ -12,19 +12,19 @@ export default function AboutSectionThree() {
 			id: 'item-1',
 			title: 'What is Equilibrate.AI?',
 			content:
-				'Equilibrate.AI is a pioneering company dedicated to making advanced technology accessible to everyone by removing barriers with artificial intelligence. We bridge the gap between complex technology and everyday users.',
+				'Equilibrate.AI is  dedicated to making advanced technology accessible to everyone by removing barriers with artificial intelligence. We bridge the gap between complex technology and everyday users.',
 		},
 		{
 			id: 'item-2',
 			title: 'How does AI help?',
 			content:
-				'Our AI-driven approach simplifies complex technologies, making them user-friendly and efficient for a wide range of applications. We use machine learning to automate processes, reduce friction, and create intuitive experiences.',
+				'Our AI-driven approach simplifies complex technologies, making them user-friendly and efficient for a wide range of applications.',
 		},
 		{
 			id: 'item-3',
-			title: 'Can I customize AI solutions for my business?',
+			title: 'Can I get customized AI solutions for my business?',
 			content:
-				'Yes. We offer editable AI frameworks and customizable models so you can tailor solutions to your specific business needs and workflows. Our team works with you to ensure the AI integrates seamlessly.',
+				'Yes. We offer custom AI frameworks that can be Tailored for your Buisness and workflows. Our team works with you to ensure the AI integrates seamlessly.',
 		},
 		{
 			id: 'item-4',
@@ -36,34 +36,22 @@ export default function AboutSectionThree() {
 			id: 'item-5',
 			title: 'Is your technology secure?',
 			content:
-				'Absolutely. We prioritize enterprise-grade data protection, ensuring your information is always safe with us. We comply with international security standards and conduct regular audits to maintain the highest levels of protection.',
+				'Absolutely. We prioritize enterprise-grade data protection, ensuring your information is always safe with us. We comply with security standards to maintain the highest levels of protection.',
 		},
 		{
 			id: 'item-6',
-			title: 'Does Equilibrate.AI integrate with existing tools?',
-			content:
-				'Yes. Equilibrate.AI connects seamlessly with popular platforms, APIs, and enterprise systems to fit into your current tech stack. Our integration specialists can assist with implementation.',
-		},
-		{
-			id: 'item-7',
-			title: 'What support options are available?',
-			content:
-				'We provide comprehensive support including detailed documentation, dedicated customer success managers, technical support channels, and community forums to help you maximize the value of our solutions.',
-		},
-		{
-			id: 'item-8',
 			title: 'How can I get started?',
 			content:
 				'Visit our products page or contact our sales team to schedule a demo and learn how Equilibrate.AI can transform your business operations. We offer flexible onboarding to get you up and running quickly.',
 		},
 		{
-			id: 'item-9',
+			id: 'item-7',
 			title: 'What makes Equilibrate.AI different?',
 			content:
 				'Our focus is on accessibility and democratization of AI technology. We believe powerful AI tools shouldn\'t be reserved for large enterprises. Our solutions are designed to be affordable, scalable, and easy to implement for businesses of all sizes.',
 		},
 		{
-			id: 'item-10',
+			id: 'item-8',
 			title: 'Can Equilibrate.AI scale with my business?',
 			content:
 				'Absolutely. Our platform is built for scalability, whether you\'re a startup or an enterprise. As your business grows, our solutions grow with you without compromising performance or security.',

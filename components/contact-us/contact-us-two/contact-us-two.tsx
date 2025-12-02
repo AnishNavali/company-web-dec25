@@ -46,7 +46,7 @@ export const ContactSectionTwo = () => {
   };
 
   return (
-    <section className="pb-28 relative z-10 pt-14 bg-[#FFFAF7] relative sm:pt-30 md:pt-32 overflow-x-hidden font-sans">
+    <section className="pb-28 relative z-10 pt-8 bg-[#FFFAF7] relative sm:pt-12 md:pt-12 overflow-x-hidden font-sans">
 
     
       {/* Responsive Decorative Lines */}

@@ -423,17 +423,17 @@ export function ContactSecTwo() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="w-full max-w-[500px]">
+            <div className="w-full max-w-[470px]">
               <div className="relative bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white opacity-70" />
 
                 {/* Globe */}
-                <div className="relative w-full h-[500px] flex items-center justify-center p-6">
-                  <Globe className="w-full h-full" />
+                <div className="relative w-full h-[470px] flex items-center justify-center p-6">
+                  <Globe className="w-full h-[460px]" />
                 </div>
 
                 {/* Footer Info */}
-                <div className="relative border-t border-gray-100 px-8 py-6 bg-white/90 backdrop-blur-sm flex flex-col items-center text-center">
+                <div className="relative border-t border-gray-100 px-8 py-4 bg-white/90 backdrop-blur-sm flex flex-col items-center text-center">
                   <p className="text-black font-bold text-lg flex items-center gap-2 mb-1">
                     📍 Bangalore, Karnataka, India
                   </p>
@@ -455,7 +455,7 @@ export default function ContactCombo() {
     <div className="bg-[#FFFAF7] min-h-screen relative overflow-x-hidden font-sans">
       {/* Responsive Decorative Lines */}
       <div className="absolute inset-0 pointer-events-none opacity-10 z-0">
-        <div className="absolute top-4 sm:top-10 left-0 w-full h-px sm:h-1 bg-gray-400"></div>
+        {/* <div className="absolute top-4 sm:top-10 left-0 w-full h-px sm:h-1 bg-gray-400"></div> */}
         <div className="absolute bottom-4 sm:bottom-10 left-0 w-full h-px sm:h-1 bg-gray-400"></div>
         <div className="absolute top-0 left-4 sm:left-10 h-full w-px sm:w-1 bg-gray-400"></div>
         <div className="absolute top-0 right-4 sm:right-10 h-full w-px sm:w-1 bg-gray-400"></div>

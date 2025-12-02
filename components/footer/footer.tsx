@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useRef, ChangeEvent, FormEvent } from "react";
+import React, { useState, useRef, ChangeEvent, FormEvent, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Mail, 
@@ -10,7 +10,8 @@ import {
   Linkedin, 
   Instagram,
   Sparkles,
-  CheckCircle
+  CheckCircle,
+  X
 } from "lucide-react";
 
 // --- Types ---
@@ -101,8 +102,10 @@ export function Footer() {
   const [errors, setErrors] = useState<Errors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showExploreButton, setShowExploreButton] = useState(false);
 
   const cardRef = useRef<HTMLDivElement | null>(null);
+  const footerRef = useRef<HTMLDivElement | null>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -147,7 +150,6 @@ export function Footer() {
     setIsSubmitting(true);
 
     try {
-      // Ensure this path matches your file structure exactly
       const res = await fetch("/api/contact-form/footer-route", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -177,6 +179,36 @@ export function Footer() {
     setIsSubmitting(false);
   };
 
+  const openNavMenu = () => {
+    window.dispatchEvent(new Event("open-nav-menu"));
+  };
+
+  // Visibility detection for explore button
+  useEffect(() => {
+    const handleScroll = () => {
+      const section = footerRef.current;
+      
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        // Show when footer is in viewport
+        if (rect.top < windowHeight && rect.bottom > 0) {
+          setShowExploreButton(true);
+        } else {
+          setShowExploreButton(false);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const socialLinks: SocialLink[] = [
     { icon: Github, href: "https://github.com/Equilibrate-AI", label: "GitHub" },
     { icon: XIcon, href: "https://x.com/EquilibrateAI", label: "X (Twitter)" },
@@ -186,270 +218,292 @@ export function Footer() {
   ];
 
   return (
-    // Theme Update: Background & Grid Lines
-    <footer 
-      className="relative bg-[#FFFAF7] border-t border-gray-600 overflow-hidden mt-auto font-sans"
-      style={{ position: 'relative', clear: 'both', minHeight: 'auto' }}
-    >
+    <>
+      {/* Explore More Button - Fixed at bottom */}
+      <AnimatePresence>
+        {showExploreButton && (
+          <motion.div
+            key="explore-btn"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 md:hidden"
+          >
+<button
+  onClick={openNavMenu}
+  className="px-6 py-3 text-base font-semibold text-black border border-black bg-[#FFFAF7] transition-colors duration-200 rounded-full shadow-lg active:scale-95"
+>
+  Explore more →
+</button>
 
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-12 items-center">
-          {/* Left Column: Info */}
-          <div className="space-y-8">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <h3 className="text-3xl sm:text-4xl font-bold text-black tracking-tight">
-                  Equilibrate.AI
-                </h3>
+      {/* Footer */}
+      <footer 
+        ref={footerRef}
+        data-footer-section
+        className="relative bg-[#FFFAF7] border-t border-gray-600 overflow-hidden mt-auto font-sans"
+        style={{ position: 'relative', clear: 'both', minHeight: 'auto' }}
+      >
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-12 items-center">
+            {/* Left Column: Info */}
+            <div className="space-y-8">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <h3 className="text-3xl sm:text-4xl font-bold text-black tracking-tight">
+                    Equilibrate.AI
+                  </h3>
+                </div>
+                <p className="text-lg text-gray-600 leading-relaxed max-w-md font-medium">
+                  Building innovative solutions for tomorrow&apos;s challenges with cutting-edge technology and exceptional service.
+                </p>
               </div>
-              <p className="text-lg text-gray-600 leading-relaxed max-w-md font-medium">
-                Building innovative solutions for tomorrow&apos;s challenges with cutting-edge technology and exceptional service.
-              </p>
-            </div>
-            
-            <div className="space-y-6">
-              <h4 className="text-xl font-bold text-black">Get in Touch</h4>
+              
+              <div className="space-y-6">
+                <h4 className="text-xl font-bold text-black">Get in Touch</h4>
+                <div className="space-y-4">
+                  <a href="mailto:anish.navali@equilibrateai.com" className="flex items-center gap-4 group cursor-pointer">
+                    <div className="w-12 h-12 bg-white border border-gray-100 rounded-xl flex items-center justify-center group-hover:border-black transition-all">
+                      <Mail className="w-5 h-5 text-black" />
+                    </div>
+                    <span className="text-gray-700 group-hover:text-black font-medium transition-colors">
+                      support@equilibrateai.com
+                    </span>
+                  </a>
+                  <a href="tel:+91-9606024155" className="flex items-center gap-4 group cursor-pointer">
+                    <div className="w-12 h-12 bg-white border border-gray-100 rounded-xl flex items-center justify-center group-hover:border-black transition-all">
+                      <Phone className="w-5 h-5 text-black" />
+                    </div>
+                    <span className="text-gray-700 group-hover:text-black font-medium transition-colors">
+                      +91-9606024155
+                    </span>
+                  </a>
+                  <div className="flex items-center gap-4 group cursor-pointer">
+                    <div className="w-12 h-12 bg-white border border-gray-100 rounded-xl flex items-center justify-center group-hover:border-black transition-all">
+                      <MapPin className="w-5 h-5 text-black" />
+                    </div>
+                    <span className="text-gray-700 group-hover:text-black font-medium transition-colors">
+                      Bangalore, Karnataka, India
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
               <div className="space-y-4">
-                <a href="mailto:anish.navali@equilibrateai.com" className="flex items-center gap-4 group cursor-pointer">
-                  <div className="w-12 h-12 bg-white border border-gray-100 rounded-xl flex items-center justify-center group-hover:border-black transition-all">
-                    <Mail className="w-5 h-5 text-black" />
-                  </div>
-                  <span className="text-gray-700 group-hover:text-black font-medium transition-colors">
-                    support@equilibrateai.com
-                  </span>
-                </a>
-                <a href="tel:+91-9606024155" className="flex items-center gap-4 group cursor-pointer">
-                  <div className="w-12 h-12 bg-white border border-gray-100 rounded-xl flex items-center justify-center group-hover:border-black transition-all">
-                    <Phone className="w-5 h-5 text-black" />
-                  </div>
-                  <span className="text-gray-700 group-hover:text-black font-medium transition-colors">
-                    +91-9606024155
-                  </span>
-                </a>
-                <div className="flex items-center gap-4 group cursor-pointer">
-                  <div className="w-12 h-12 bg-white border border-gray-100 rounded-xl flex items-center justify-center group-hover:border-black transition-all">
-                    <MapPin className="w-5 h-5 text-black" />
-                  </div>
-                  <span className="text-gray-700 group-hover:text-black font-medium transition-colors">
-                    Bangalore, Karnataka, India
-                  </span>
+                <h4 className="text-xl font-bold text-black">Follow Us</h4>
+                <div className="flex gap-3 flex-wrap">
+                  {socialLinks.map((social, index) => (
+                    <motion.a
+                      key={index}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-12 h-12 bg-white border border-gray-200 rounded-xl flex items-center justify-center hover:border-black hover:bg-black group transition-all duration-300 shadow-sm"
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      aria-label={social.label}
+                    >
+                      <social.icon className="w-5 h-5 text-black group-hover:text-white transition-colors" />
+                    </motion.a>
+                  ))}
                 </div>
               </div>
             </div>
             
-            <div className="space-y-4">
-              <h4 className="text-xl font-bold text-black">Follow Us</h4>
-              <div className="flex gap-3 flex-wrap">
-                {socialLinks.map((social, index) => (
-                  <motion.a
-                    key={index}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 bg-white border border-gray-200 rounded-xl flex items-center justify-center hover:border-black hover:bg-black group transition-all duration-300 shadow-sm"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                    aria-label={social.label}
-                  >
-                    <social.icon className="w-5 h-5 text-black group-hover:text-white transition-colors" />
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-          </div>
-          
-          {/* Right Column: Form Card */}
-          <motion.div
-            ref={cardRef}
-            // Theme Update: Card style
-            className="group bg-white rounded-[2rem] p-8 border-none shadow-sm hover:shadow-xl relative overflow-hidden transition-all"
-          >
-            <div className="relative z-10">
-              <AnimatePresence mode="wait">
-                {!isSubmitted ? (
-                  <motion.div
-                    key="form"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <div className="mb-8">
-                      <h4 className="text-2xl font-bold text-black mb-2 flex items-center gap-2">
-                        <Sparkles className="w-6 h-6 text-black" />
-                        Send us a Message
-                      </h4>
-                      <p className="text-gray-600 leading-relaxed font-medium">
-                        We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
-                      </p>
-                    </div>
-                    
-                    <div className="space-y-5">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {/* Right Column: Form Card */}
+            <motion.div
+              ref={cardRef}
+              className="group bg-white rounded-[2rem] p-8 border-none shadow-sm hover:shadow-xl relative overflow-hidden transition-all"
+            >
+              <div className="relative z-10">
+                <AnimatePresence mode="wait">
+                  {!isSubmitted ? (
+                    <motion.div
+                      key="form"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.6 }}
+                    >
+                      <div className="mb-8">
+                        <h4 className="text-2xl font-bold text-black mb-2 flex items-center gap-2">
+                          <Sparkles className="w-6 h-6 text-black" />
+                          Send us a Message
+                        </h4>
+                        <p className="text-gray-600 leading-relaxed font-medium">
+                          We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
+                        </p>
+                      </div>
+                      
+                      <div className="space-y-5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                          <div className="space-y-2">
+                            <Input
+                              type="text"
+                              name="name"
+                              placeholder="Your full name"
+                              value={formData.name}
+                              onChange={handleInputChange}
+                              className={`bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 text-black placeholder:text-gray-400 transition-all ${
+                                errors.name ? "border-red-400" : ""
+                              }`}
+                              required
+                            />
+                            {errors.name && (
+                              <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-red-400 text-sm">
+                                {errors.name}
+                              </motion.p>
+                            )}
+                          </div>
+                          <div className="space-y-2">
+                            <Input
+                              type="email"
+                              name="email"
+                              placeholder="email@example.com"
+                              value={formData.email}
+                              onChange={handleInputChange}
+                              className={`bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 text-black placeholder:text-gray-400 transition-all ${
+                                errors.email ? "border-red-400" : ""
+                              }`}
+                              required
+                            />
+                            {errors.email && (
+                              <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-red-400 text-sm">
+                                {errors.email}
+                              </motion.p>
+                            )}
+                          </div>
+                        </div>
+                        
                         <div className="space-y-2">
                           <Input
                             type="text"
-                            name="name"
-                            placeholder="Your full name"
-                            value={formData.name}
+                            name="subject"
+                            placeholder="What's this about?"
+                            value={formData.subject}
                             onChange={handleInputChange}
-                            // Theme Update: Inputs
                             className={`bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 text-black placeholder:text-gray-400 transition-all ${
-                              errors.name ? "border-red-400" : ""
+                              errors.subject ? "border-red-400" : ""
                             }`}
                             required
                           />
-                          {errors.name && (
+                          {errors.subject && (
                             <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-red-400 text-sm">
-                              {errors.name}
+                              {errors.subject}
                             </motion.p>
                           )}
                         </div>
+                        
                         <div className="space-y-2">
-                          <Input
-                            type="email"
-                            name="email"
-                            placeholder="email@example.com"
-                            value={formData.email}
+                          <Textarea
+                            name="message"
+                            placeholder="Tell us more about your inquiry..."
+                            value={formData.message}
                             onChange={handleInputChange}
+                            rows={4}
                             className={`bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 text-black placeholder:text-gray-400 transition-all ${
-                              errors.email ? "border-red-400" : ""
+                              errors.message ? "border-red-400" : ""
                             }`}
                             required
                           />
-                          {errors.email && (
+                          {errors.message && (
                             <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-red-400 text-sm">
-                              {errors.email}
+                              {errors.message}
                             </motion.p>
                           )}
                         </div>
+                        
+                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                          <Button
+                            type="button"
+                            onClick={() => {
+                              handleSubmit({ preventDefault: () => {} } as FormEvent<HTMLFormElement>);
+                            }}
+                            disabled={!isFormValid() || isSubmitting}
+                            className="w-full bg-black hover:bg-gray-800 text-white font-bold py-4 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {isSubmitting ? (
+                              <>
+                                <motion.div
+                                  className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                                  animate={{ rotate: 360 }}
+                                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                />
+                                Processing...
+                              </>
+                            ) : (
+                              <>
+                                <Send className="w-5 h-5" />
+                                Send Message
+                              </>
+                            )}
+                          </Button>
+                        </motion.div>
                       </div>
-                      
-                      <div className="space-y-2">
-                        <Input
-                          type="text"
-                          name="subject"
-                          placeholder="What's this about?"
-                          value={formData.subject}
-                          onChange={handleInputChange}
-                          className={`bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 text-black placeholder:text-gray-400 transition-all ${
-                            errors.subject ? "border-red-400" : ""
-                          }`}
-                          required
-                        />
-                        {errors.subject && (
-                          <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-red-400 text-sm">
-                            {errors.subject}
-                          </motion.p>
-                        )}
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Textarea
-                          name="message"
-                          placeholder="Tell us more about your inquiry..."
-                          value={formData.message}
-                          onChange={handleInputChange}
-                          rows={4}
-                          className={`bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 text-black placeholder:text-gray-400 transition-all ${
-                            errors.message ? "border-red-400" : ""
-                          }`}
-                          required
-                        />
-                        {errors.message && (
-                          <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-red-400 text-sm">
-                            {errors.message}
-                          </motion.p>
-                        )}
-                      </div>
-                      
-                      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                        <Button
-                          type="button"
-                          onClick={() => {
-                            handleSubmit({ preventDefault: () => {} } as FormEvent<HTMLFormElement>);
-                          }}
-                          disabled={!isFormValid() || isSubmitting}
-                          className="w-full bg-black hover:bg-gray-800 text-white font-bold py-4 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {isSubmitting ? (
-                            <>
-                              <motion.div
-                                className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                              />
-                              Processing...
-                            </>
-                          ) : (
-                            <>
-                              <Send className="w-5 h-5" />
-                              Send Message
-                            </>
-                          )}
-                        </Button>
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center py-12"
-                  >
-                    <motion.div
-                      className="w-20 h-20 rounded-full bg-green-100 border-4 border-green-50 flex items-center justify-center mx-auto mb-6"
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                    >
-                      <CheckCircle className="w-10 h-10 text-green-600" />
                     </motion.div>
-                    <motion.h3
-                      className="text-2xl font-bold text-black mb-4"
-                      initial={{ opacity: 0, y: 10 }}
+                  ) : (
+                    <motion.div
+                      key="success"
+                      initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.3 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.6 }}
+                      className="text-center py-12"
                     >
-                      Message Sent Successfully!
-                    </motion.h3>
-                    <motion.p
-                      className="text-gray-600 mb-8 font-medium"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.4 }}
-                    >
-                      Thank you for reaching out! We&apos;ve received your message and will get back to you within 24 hours.
-                    </motion.p>
-                    <motion.button
-                      onClick={resetForm}
-                      className="px-8 py-3 bg-white border-2 border-gray-200 rounded-xl text-black font-bold hover:border-black transition-all duration-200 shadow-sm"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.5 }}
-                    >
-                      Send Another Message
-                    </motion.button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
+                      <motion.div
+                        className="w-20 h-20 rounded-full bg-green-100 border-4 border-green-50 flex items-center justify-center mx-auto mb-6"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                      >
+                        <CheckCircle className="w-10 h-10 text-green-600" />
+                      </motion.div>
+                      <motion.h3
+                        className="text-2xl font-bold text-black mb-4"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                      >
+                        Message Sent Successfully!
+                      </motion.h3>
+                      <motion.p
+                        className="text-gray-600 mb-8 font-medium"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                      >
+                        Thank you for reaching out! We&apos;ve received your message and will get back to you within 24 hours.
+                      </motion.p>
+                      <motion.button
+                        onClick={resetForm}
+                        className="px-8 py-3 bg-white border-2 border-gray-200 rounded-xl text-black font-bold hover:border-black transition-all duration-200 shadow-sm"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.5 }}
+                      >
+                        Send Another Message
+                      </motion.button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          </div>
+          
+          <div className="pt-8 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-black font-medium text-sm">
+              © 2025 Equilibrate.AI. All rights reserved.
+            </p>
+          </div>
         </div>
-        
-        <div className="pt-8 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-black font-medium text-sm">
-            © 2025 Equilibrate.AI. All rights reserved.
-          </p>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 }
 

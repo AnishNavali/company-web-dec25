@@ -5,7 +5,7 @@ import { Zap, Globe, Users, Cog, Cpu, Target } from "lucide-react"; // Removed A
 import { Badge } from "@/components/ui/badge";
 // Removed Button import
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import BlurText from "@/components/BlurText";
+import TextType from "@/components/TextType";
 
 // --- Types & Interfaces ---
 
@@ -92,9 +92,7 @@ const timelineData: TimelineItem[] = [
 // --- Main Component ---
 
 export function HomeSectionSeven() {
-  const handleAnimationComplete = () => {
-    console.log('Animation completed!');
-  };
+
 
   return (
     <div className="py-12 sm:py-20 bg-[#FFFAF7] relative overflow-hidden">
@@ -108,13 +106,13 @@ export function HomeSectionSeven() {
       {/* Content Container with Flex Column and Centered Items */}
       <div className="container mx-auto flex flex-col items-center relative z-10 px-4">
         <div className="w-full flex justify-center mb-4 sm:mb-8">
-          <BlurText
-            text="Why Equilibrate Leads the Future"
-            delay={150}
-            animateBy="words"
-            direction="top"
-            onAnimationComplete={handleAnimationComplete}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold text-center leading-tight"
+            <TextType
+            text={["Why Equilibrate.AI Leads The Future"]}
+            typingSpeed={75}
+            pauseDuration={1500}
+            showCursor={true}
+            cursorCharacter="|"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-6 tracking-tight text-center leading-tight"
           />
         </div>
         <p className="text-base sm:text-xl md:text-2xl text-gray-600 mb-4 sm:mb-8 text-center max-w-3xl px-2">
