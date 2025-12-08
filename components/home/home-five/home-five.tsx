@@ -40,7 +40,7 @@ const features = [
     title: "Real-Time Analytics",
     description:
       "Comprehensive dashboards delivering instant visibility into performance metrics and business intelligence.",
-    image: "/realtimeone.png",
+    image: "/real.png",
   },
 ];
 

@@ -58,7 +58,7 @@ export default function HomeSectiontwo() {
             <Image
               width={800}
               height={1000}
-              src="/anish_explain.jpg"
+              src="/anishone.PNG"
               alt="Team meeting and presentation"
               className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700"
             />

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 export default function HomeSectionOne() {
@@ -22,11 +22,15 @@ export default function HomeSectionOne() {
     }
   };
 
-  const handleLoadedMetadata = () => {
+  /**
+   * FIX APPLIED: Wrapped in useCallback so we can use it in useEffect.
+   * This ensures the function identity doesn't change on every render.
+   */
+  const handleLoadedMetadata = useCallback(() => {
     if (!videoRef.current) return;
 
     // Trigger exactly at 4 seconds for an 8 second video
-    const appearAt = 4; 
+    const appearAt = 4;
 
     if (appearTimeoutRef.current) {
       clearTimeout(appearTimeoutRef.current);
@@ -35,7 +39,7 @@ export default function HomeSectionOne() {
     appearTimeoutRef.current = setTimeout(() => {
       setShowContent(true);
     }, appearAt * 1000);
-  };
+  }, []);
 
   const handleVideoEnded = () => {
     if (videoRef.current) {
@@ -45,6 +49,21 @@ export default function HomeSectionOne() {
     }
   };
 
+  /**
+   * FIX APPLIED: This useEffect checks if the video is ALREADY ready.
+   * In 'npm run dev', the video might load before the component attaches the event listener.
+   * Checking readyState >= 1 ensures we don't miss the event.
+   */
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    
+    // 1 = HAVE_METADATA. If we have metadata, trigger the handler manually.
+    if (videoElement && videoElement.readyState >= 1) {
+      handleLoadedMetadata();
+    }
+  }, [handleLoadedMetadata]);
+
+  // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
       if (appearTimeoutRef.current) {
