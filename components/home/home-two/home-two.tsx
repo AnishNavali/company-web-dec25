@@ -84,7 +84,7 @@ export default function HomeSectiontwo() {
               </div>
 
               <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                We developed a comprehensive web application for
+                We developed an AI enabled training bot for
                 Karnataka&apos;s state-wide socio-economic survey, creating an
                 integrated ecosystem of digital tools that revolutionized data
                 collection and enumerator training processes for millions of
