@@ -51,7 +51,7 @@ export default function AboutSectionFour() {
       ),
       year: "2025",
       yearLabel: "Recognition Year",
-      imageSrc: "/startup-karnataka.png",
+      imageSrc: "/startup-karnataka1.png",
       imageAlt: "Startup Karnataka Recognition",
     },
   ];
