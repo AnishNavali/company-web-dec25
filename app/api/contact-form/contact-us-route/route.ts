@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     // Email to company
     const companyMailOptions = {
       from: `"Corporate Contact Form" <${user}>`, // Use authenticated user
-      to: "anish.equilibrate@gmail.com",
+      to: "support@equilibrateai.com",
       subject: `New Contact Submission from ${name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

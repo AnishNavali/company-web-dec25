@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     // Email to HR
     const hrEmail = {
       from: `"HR Recruitment Portal" <${user}>`,
-      to: "anish.equilibrate@gmail.com",
+      to: "support@equilibrateai.com",
       subject: `New Application Received - ${position} (${firstName} ${lastName})`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
