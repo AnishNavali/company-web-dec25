@@ -84,24 +84,32 @@ const productSuites: ProductSuite[] = [
     description: "A comprehensive analytics platform for actionable insights.",
     detailedDescription:
       "Transform your data into powerful insights with our advanced analytics platform.",
-    icon: <BarChart3 className="w-6 h-6" />,
+    icon: (
+      <Image
+        src="/logo.png"
+        alt="Adro Logo"
+        width={48}
+        height={48}
+        className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
+      />
+    ),
     features: [
       "Real-time Data Processing",
       "Advanced Visualization",
       "Predictive Analytics",
       "Custom Dashboard Creation",
     ],
-    color: "from-purple-500 to-pink-500",
+    color: "transparent",
     stats: [
-      { label: "Self Hosted", value: "100%" },
-      { label: "Support", value: "24/7" },
-      { label: "Free LLM", value: "✓" },
-      { label: "Device Native", value: "✓" },
+      { label: "Smart Logic", value: "AI Powered" },
+      { label: "Seconds", value: "Instant Dashboards" },
+      { label: "No-Code", value: "Zero-Effort" },
+      { label: "Csv & Excel", value: "Data Ready" },
     ],
     carouselImages: [
-      { url: "/Adro/Adro-pic-1.png", alt: "Analytics Dashboard" },
-      { url: "/Adro/Adro-pic-3.png", alt: "Data Visualization" },
-      { url: "/Adro/Adro-pic-2.png", alt: "Predictive Models" },
+      { url: "/adro-web-1.png", alt: "Charts" },
+      { url: "/adro-web-2.png", alt: "Dashboard" },
+      { url: "/adro-web-3.png", alt: "Home Page" },
     ],
     whyChoose: [
       {
@@ -244,9 +252,13 @@ const ProductCard = React.memo(
           <CardHeader className="text-center relative z-10 p-6 sm:p-8">
             <motion.div
               className={cn(
-                "w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center text-white shadow-md",
-                "bg-gradient-to-r",
-                suite.color
+                "mx-auto mb-4 flex items-center justify-center",
+                suite.color === "transparent"
+                  ? "w-16 h-16"
+                  : cn(
+                    "w-14 h-14 sm:w-16 sm:h-16 rounded-2xl text-white shadow-md bg-gradient-to-r",
+                    suite.color
+                  )
               )}
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2 }}
@@ -460,9 +472,13 @@ export function ProductSecOne() {
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
                       <div
                         className={cn(
-                          "w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center text-white flex-shrink-0 shadow-md",
-                          "bg-gradient-to-r",
-                          selectedSuite.color
+                          "flex items-center justify-center flex-shrink-0",
+                          selectedSuite.color === "transparent"
+                            ? "w-14 h-14"
+                            : cn(
+                              "w-12 h-12 sm:w-14 sm:h-14 rounded-xl text-white shadow-md bg-gradient-to-r",
+                              selectedSuite.color
+                            )
                         )}
                       >
                         {selectedSuite.icon}
@@ -514,6 +530,18 @@ export function ProductSecOne() {
                         ))}
                       </div>
                     </div>
+
+                    <motion.a
+                      href="https://www.aidashboardbuilder.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-8 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-800 transition-colors shadow-lg"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <span>View Product</span>
+                      <ArrowRight className="w-5 h-5" />
+                    </motion.a>
                   </div>
 
                   {/* Right Content - Carousel Card */}
