@@ -12,6 +12,10 @@ import {
   Bot,
   BarChart3,
   Headphones,
+  MessageCircle,
+  Mic,
+  Send,
+  User,
 } from "lucide-react";
 import {
   Carousel,
@@ -144,7 +148,7 @@ const productSuites: ProductSuite[] = [
       { label: "Setup Time", value: "5 Min" },
     ],
     carouselImages: [
-      { url: "/ChatBot/Chatbot pic-1.jpeg", alt: "AI Chatbot Interface" },
+      { url: "/ChatBotJS/1.png", alt: "AI Chatbot Interface" },
       { url: "/ChatBot/Chatbot pic-2.jpeg", alt: "Bot Integration" },
       { url: "/ChatBot/Chatbot pic-3.jpeg", alt: "Custom Templates" },
     ],
@@ -160,52 +164,78 @@ const productSuites: ProductSuite[] = [
     ],
   },
   {
-    id: "customer-service",
-    title: "Customer Service",
-    description:
-      "Cloud-based manufacturing intelligence powered by digital forms.",
-    detailedDescription:
-      "Deliver exceptional customer support with our comprehensive service platform.",
-    icon: <Headphones className="w-6 h-6" />,
+    id: "another-ai",
+    title: "Another AI App",
+    description: "Your AI second brain inside WhatsApp.",
+    detailedDescription: "Manage reminders, tasks, notes, events, and your entire life — just by sending a message.",
+    icon: <MessageCircle className="w-6 h-6" />,
     features: [
-      "Omnichannel Support",
-      "Automated Ticket Routing",
-      "Performance Analytics",
-      "Integration Capabilities",
+      "AI Chat Interface",
+      "WhatsApp Integration",
+      "Manual Dashboard",
+      "Task Automation",
     ],
-    color: "from-green-500 to-emerald-500",
+    color: "from-green-500 to-emerald-500", // WhatsApp colors
     stats: [
-      { label: "Uptime", value: "99.9%" },
-      { label: "Support", value: "24/7" },
-      { label: "Languages", value: "50+" },
-      { label: "Response", value: "< 2s" },
+      { label: "Platform", value: "WhatsApp" },
+      { label: "Learning Curve", value: "Zero" },
+      { label: "Automation", value: "Instant" },
+      { label: "Dashboard", value: "Web & Mobile" },
     ],
     carouselImages: [
-      {
-        url: "/Customer/customer.png",
-        alt: "Customer Service",
-      },
-      {
-        url: "/Customer/customer-one.png",
-        alt: "Support Dashboard",
-      },
-      {
-        url: "/Customer/customertwo.png",
-        alt: "Team Collaboration",
-      },
+      { url: "/AnotherAI/1.png", alt: "WhatsApp Integration" }, 
+      { url: "/AnotherAI/3.png", alt: "Task Automation" },
+      { url: "/Customer/customertwo.png", alt: "Manual Dashboard" },
     ],
     whyChoose: [
       {
-        icon: <Headphones className="w-4 h-4 text-black flex-shrink-0" />,
-        text: "Multi-Channel Support",
+        icon: <MessageCircle className="w-4 h-4 text-black flex-shrink-0" />,
+        text: "Simple Productivity",
       },
       {
-        icon: <ArrowRight className="w-4 h-4 text-black flex-shrink-0" />,
-        text: "Automated Workflows",
+        icon: <Bot className="w-4 h-4 text-black flex-shrink-0" />,
+        text: "Structured Outcomes",
+      },
+    ],
+  },
+  {
+    id: "interview-tool",
+    title: "AI Interview Tool",
+    description: "AI-driven Mock Interviews for realistic practice.",
+    detailedDescription: "Ace your interviews with our advanced AI tool. Get realistic mock interviews, real-time feedback, and actionable insights to improve your performance.",
+    icon: <Mic className="w-6 h-6" />,
+    features: [
+      "AI-driven Mock Interviews",
+      "Real-time Speech Analysis",
+      "Comprehensive Feedback",
+      "Custom Interview Scenarios",
+    ],
+    color: "from-purple-500 to-indigo-500",
+    stats: [
+      { label: "Success Rate", value: "95%" },
+      { label: "Mock Scenarios", value: "Unlimited" },
+      { label: "Feedback", value: "Real-time" },
+      { label: "Analysis", value: "Deep Dive" },
+    ],
+    carouselImages: [
+      { url: "/AIInterview/1.png", alt: "Interview Session" },
+      { url: "/AIInterview/2.png", alt: "Feedback Report" },
+      { url: "/AIInterview/3.png", alt: "Analytics" },
+    ],
+    whyChoose: [
+      {
+        icon: <Mic className="w-4 h-4 text-black flex-shrink-0" />,
+        text: "Voice & Speech Analysis",
+      },
+      {
+        icon: <Zap className="w-4 h-4 text-black flex-shrink-0" />,
+        text: "Interactive Experience",
       },
     ],
   },
 ];
+
+
 
 // Optimized Card Component
 const ProductCard = React.memo(
@@ -242,10 +272,10 @@ const ProductCard = React.memo(
         <Card
           className={cn(
             "cursor-pointer transition-all duration-300 overflow-hidden relative group rounded-[2rem]",
-
+            "backdrop-blur-2xl bg-white/40 border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:shadow-[0_12px_48px_0_rgba(31,38,135,0.12)] hover:bg-white/60",
             isSelected
-              ? "border-2 border-black shadow-xl bg-white"
-              : "border-none shadow-sm hover:shadow-xl bg-white"
+              ? "ring-2 ring-black"
+              : ""
           )}
           onClick={onClick}
         >
@@ -339,13 +369,18 @@ export function ProductSecOne() {
   };
 
   return (
-    // Theme Update: Background Color
+    // Theme Update: Background Color & Gradient blobs for glass effect
     <div
       className="bg-[#FFFAF7] relative overflow-hidden pt-20 sm:pt-30 md:pt-32 pb-12 font-sans"
       onClick={handleOutsideClick}
     >
+      {/* Liquid background blobs */}
+      <div className="absolute top-20 left-10 w-96 h-96 bg-blue-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+      <div className="absolute top-40 right-20 w-96 h-96 bg-purple-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+      <div className="absolute bottom-20 left-1/2 w-96 h-96 bg-pink-300/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+
       {/* Responsive Decorative Lines */}
-      <div className="absolute inset-0 pointer-events-none opacity-10 z-0">
+      <div className="absolute inset-0 pointer-events-none opacity-20 z-0">
         {/* <div className="absolute top-4 sm:top-10 left-0 w-full h-px sm:h-1 bg-gray-400"></div> */}
         <div className="absolute bottom-4 sm:bottom-10 left-0 w-full h-px sm:h-1 bg-gray-400"></div>
         <div className="absolute top-0 left-4 sm:left-10 h-full w-px sm:w-1 bg-gray-400"></div>
@@ -531,23 +566,34 @@ export function ProductSecOne() {
                       </div>
                     </div>
 
-                    <motion.a
-                      href="https://www.aidashboardbuilder.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-8 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-800 transition-colors shadow-lg"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <span>View Product</span>
-                      <ArrowRight className="w-5 h-5" />
-                    </motion.a>
+                    {selectedSuite.id === "chatbot" ? (
+                      <motion.div
+                        className="inline-flex mt-8 items-center gap-2 px-8 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-800 transition-colors shadow-lg cursor-pointer max-w-fit"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => window.location.href = '/chatbot'}
+                      >
+                        <span>View Product</span>
+                        <ArrowRight className="w-5 h-5" />
+                      </motion.div>
+                    ) : (
+                      <motion.a
+                        href="https://www.aidashboardbuilder.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex mt-8 items-center gap-2 px-8 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-800 transition-colors shadow-lg max-w-fit"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <span>View Product</span>
+                        <ArrowRight className="w-5 h-5" />
+                      </motion.a>
+                    )}
                   </div>
 
-                  {/* Right Content - Carousel Card */}
+                    {/* Right Content */}
                   <div className="relative order-1 lg:order-2">
-                    {/* Theme Update: Card Styling */}
-                    <Card className="p-6 sm:p-8 border-none rounded-[2rem] overflow-hidden shadow-xl bg-white">
+                    <Card className="p-6 sm:p-8 rounded-[2rem] overflow-hidden backdrop-blur-2xl bg-white/50 border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.1)]">
                       <Carousel className="w-full">
                         <CarouselContent>
                           {selectedSuite.carouselImages.map((image, index) => (
@@ -586,7 +632,7 @@ export function ProductSecOne() {
                           {selectedSuite.stats.map((stat, index) => (
                             <div
                               key={index}
-                              className="p-4 bg-gray-50 rounded-xl border border-transparent hover:border-gray-200 transition-colors"
+                              className="p-4 backdrop-blur-md bg-white/40 rounded-xl border border-white/50 hover:bg-white/60 transition-colors shadow-sm"
                             >
                               <div className="font-bold text-xl text-black">
                                 {stat.value}
