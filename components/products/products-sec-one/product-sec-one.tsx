@@ -183,9 +183,9 @@ const productSuites: ProductSuite[] = [
       { label: "Dashboard", value: "Web & Mobile" },
     ],
     carouselImages: [
-      { url: "/AnotherAI/1.png", alt: "WhatsApp Integration" }, 
-      { url: "/AnotherAI/3.png", alt: "Task Automation" },
-      { url: "/Customer/customertwo.png", alt: "Manual Dashboard" },
+      { url: "/AnotherAI/whatsapp.png", alt: "WhatsApp Integration" },
+      { url: "/AnotherAI/manual.png", alt: "Manual Dashboard" },
+      { url: "/AnotherAI/task.png", alt: "Task Automation" },
     ],
     whyChoose: [
       {
@@ -591,7 +591,7 @@ export function ProductSecOne() {
                     )}
                   </div>
 
-                    {/* Right Content */}
+                  {/* Right Content */}
                   <div className="relative order-1 lg:order-2">
                     <Card className="p-6 sm:p-8 rounded-[2rem] overflow-hidden backdrop-blur-2xl bg-white/50 border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.1)]">
                       <Carousel className="w-full">
