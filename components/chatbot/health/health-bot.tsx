@@ -2,7 +2,10 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Stethoscope, Send, X, Loader2 } from "lucide-react";
+import { Stethoscope, Send, X, Loader2, Volume2, VolumeX, Mic, MicOff } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { useSarvam } from "@/hooks/use-sarvam";
 
 interface Message {
   sender: "bot" | "user";
@@ -21,6 +24,14 @@ export default function HealthBot({ isOpen, onClose }: HealthBotProps) {
   const [inputVal, setInputVal] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const {
+    isVoiceEnabled,
+    toggleVoice,
+    speak,
+    isListening,
+    startListening,
+    stopListening,
+  } = useSarvam();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -79,12 +90,33 @@ export default function HealthBot({ isOpen, onClose }: HealthBotProps) {
                 </div>
               </div>
             </div>
-            <button
-              onClick={onClose}
-              className="hover:bg-white/20 p-2 rounded-full transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => {
+                  if (!isVoiceEnabled) {
+                    const lastBotMessage = [...messages].reverse().find(m => m.sender === "bot");
+                    if (lastBotMessage) {
+                      speak(lastBotMessage.text);
+                    }
+                  }
+                  toggleVoice();
+                }}
+                className="hover:bg-white/20 p-2 rounded-full transition-colors"
+                title={isVoiceEnabled ? "Mute Voice" : "Enable Voice"}
+              >
+                {isVoiceEnabled ? (
+                  <Volume2 className="w-5 h-5 text-green-400" />
+                ) : (
+                  <VolumeX className="w-5 h-5 text-gray-400" />
+                )}
+              </button>
+              <button
+                onClick={onClose}
+                className="hover:bg-white/20 p-2 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
           {/* Messages */}
@@ -100,7 +132,18 @@ export default function HealthBot({ isOpen, onClose }: HealthBotProps) {
                     : "bg-black/90 text-white self-end rounded-tr-sm"
                 }`}
               >
-                {m.text}
+                <div className="prose prose-sm max-w-none">
+                  <ReactMarkdown 
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                      ul: ({ children }) => <ul className="list-disc ml-4 mb-2">{children}</ul>,
+                      ol: ({ children }) => <ol className="list-decimal ml-4 mb-2">{children}</ol>,
+                    }}
+                  >
+                    {m.text}
+                  </ReactMarkdown>
+                </div>
               </motion.div>
             ))}
             {isLoading && (
@@ -113,12 +156,20 @@ export default function HealthBot({ isOpen, onClose }: HealthBotProps) {
 
           {/* Input */}
           <div className="p-3 bg-white/50 backdrop-blur-xl border-t border-white/50 flex items-center gap-2">
+            <button
+              onClick={isListening ? stopListening : () => startListening((transcript) => setInputVal(transcript))}
+              className={`p-3 rounded-xl transition-colors ${
+                isListening ? "bg-red-500 text-white animate-pulse" : "bg-white/70 text-gray-500 hover:bg-white/90"
+              }`}
+            >
+              {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+            </button>
             <input
               type="text"
               value={inputVal}
               onChange={(e) => setInputVal(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
-              placeholder="Message..."
+              placeholder={isListening ? "Listening..." : "Message..."}
               className="flex-1 p-3 bg-white/70 rounded-xl outline-none text-sm border border-white/50 focus:border-black/30 transition-colors text-black placeholder:text-gray-500"
               autoFocus
             />

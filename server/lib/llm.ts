@@ -93,8 +93,9 @@ export async function runAgent({
 
   console.log("Raw:", content);
 
-  const cleaned = cleanResponse(content);
-  console.log("Cleaned:", cleaned);
+  //const cleaned = cleanResponse(content);
+  //console.log("Cleaned:", cleaned);
 
-  return cleaned;
+  //return cleaned;
+  return content;
 }

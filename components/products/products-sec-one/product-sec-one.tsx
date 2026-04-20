@@ -576,6 +576,18 @@ export function ProductSecOne() {
                         <span>View Product</span>
                         <ArrowRight className="w-5 h-5" />
                       </motion.div>
+                    ) : selectedSuite.id === "another-ai" ? (
+                      <motion.a
+                        href="https://www.another-ai.app/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex mt-8 items-center gap-2 px-8 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-800 transition-colors shadow-lg max-w-fit"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <span>View Product</span>
+                        <ArrowRight className="w-5 h-5" />
+                      </motion.a>
                     ) : (
                       <motion.a
                         href="https://www.aidashboardbuilder.com/"
